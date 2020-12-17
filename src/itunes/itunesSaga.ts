@@ -1,43 +1,43 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { loadedEbooks, searchEbooks } from './itunesSlice';
+import { loadedMovies, searchMovies } from './itunesSlice';
 import * as yup from 'yup';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-const ebookSchema = yup
+const movieSchema = yup
   .object({
-    formattedPrice: yup.string().defined(),
+    artistName: yup.string().defined(),
     trackName: yup.string().defined(),
-    artworkUrl60: yup.string().defined(),
+    artworkUrl100: yup.string().defined(),
     trackId: yup.number().defined(),
   })
   .defined();
 
-export type Ebook = yup.InferType<typeof ebookSchema>;
+export type Movie = yup.InferType<typeof movieSchema>;
 
-async function fetchEbooks(searchTerm: string) {
+async function fetchMovies(searchTerm: string) {
   const response = await fetch(
     `https://itunes.apple.com/search?term=${encodeURIComponent(
       searchTerm
-    )}&entity=ebook`
+    )}&entity=movie`
   );
   const data = await response.json();
 
   const responseSchema = yup.object({
     resultCount: yup.number().defined(),
-    results: yup.array(ebookSchema),
+    results: yup.array(movieSchema),
   });
 
   const { results } = await responseSchema.validate(data);
   return results;
 }
 
-function* onSearchEbooks({
+function* onSearchMovies({
   payload: { searchTerm },
 }: PayloadAction<{ searchTerm: string }>) {
-  const ebooks = yield fetchEbooks(searchTerm);
-  yield put(loadedEbooks(ebooks));
+  const movies = yield fetchMovies(searchTerm);
+  yield put(loadedMovies(movies));
 }
 
 export function* itunesSaga() {
-  yield takeLatest(searchEbooks.type, onSearchEbooks);
+  yield takeLatest(searchMovies.type, onSearchMovies);
 }

@@ -1,28 +1,28 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { StoreState } from '../store';
-import type { Ebook } from './itunesSaga';
+import type { Movie } from './itunesSaga';
 
 export type ITunesState = {
-  ebooks: Ebook[];
+  movies: Movie[];
 };
 
 const itunesSlice = createSlice({
   name: 'itunes',
   initialState: {
-    ebooks: [],
+    movies: [],
   } as ITunesState,
   reducers: {
-    searchEbooks(state, action: PayloadAction<{ searchTerm: string }>) {
+    searchMovies(state, action: PayloadAction<{ searchTerm: string }>) {
       // side effects
     },
-    loadedEbooks(state, action: PayloadAction<Ebook[]>) {
-      state.ebooks = action.payload;
+    loadedMovies(state, action: PayloadAction<Movie[]>) {
+      state.movies = action.payload;
     },
   },
 });
 
-export const { searchEbooks, loadedEbooks } = itunesSlice.actions;
+export const { searchMovies, loadedMovies } = itunesSlice.actions;
 
-export const selectEbooks = (state: StoreState) => state.itunes.ebooks;
+export const selectMovies = (state: StoreState) => state.itunes.movies;
 
 export const itunesReducer = itunesSlice.reducer;
