@@ -1,6 +1,6 @@
 import { Button, Stack } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
-import { decrementCount, incrementCount, selectCount } from './CounterSlice'
+import { decrementCount, incrementCount, selectCount } from './counterSlice'
 
 function Counter () {
   const count = useSelector(selectCount);
